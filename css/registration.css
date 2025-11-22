@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #6a82fb 0%, #fc5c7d 100%);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-container {
+  background: #fff;
+  padding: 2.2rem 1.2rem 2.2rem 1.2rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(108,58,201,0.12), 0 2px 8px rgba(252,92,125,0.13);
+  width: 100%;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Fix for vertical scroll on small screens */
+@media (max-height: 700px) or (max-width: 500px) {
+  body {
+    align-items: flex-start;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .register-container {
+    margin: 10px 0;
+    padding: 2rem 0.6rem 2rem 0.6rem;
+    min-width: unset;
+    max-width: 98vw;
+  }
+}
+
+form {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  color: #8735fb;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #333;
+  display: block;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 0.2rem;
+  transition: border-color 0.3s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #8735fb;
+  box-shadow: 0 0 4px #d1a6fc54;
+}
+
+.error-message {
+  color: #ff4957;
+  font-size: .95rem;
+  margin-top: 5px;
+  display: none;
+}
+
+input.invalid {
+  border-color: #ff4957;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem 0;
+  font-size: 1.08rem;
+  background: linear-gradient(90deg,#8735fb,#fc5c7d 90%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 0.6rem;
+  transition: background 0.3s;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(131,53,251,0.11);
+}
+
+button:hover {
+  background: linear-gradient(90deg,#fc5c7d 10%,#8735fb 100%);
+}
+
+.account-link {
+  text-align: center;
+  margin-top: .7rem;
+  font-size: 1rem;
+}
+
+.account-link a {
+  color: #8735fb;
+  text-decoration: underline;
+  transition: color 0.22s;
+}
+
+.account-link a:hover {
+  color: #fc5c7d;
+}

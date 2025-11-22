@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, #7f53ac 30%, #657eed 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  background: #fff;
+  padding: 2.4rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 38px rgba(122,82,244,.08), 0 2px 12px rgba(101,126,237,0.11);
+  width: 370px;
+  max-width: 96vw;
+}
+
+.login-container h1 {
+  text-align: center;
+  color: #7a52f4;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
+}
+
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-group label {
+  font-size: 1.04rem;
+  font-weight: 500;
+  color: #657eed;
+  margin-bottom: 0.4em;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: .6rem .9rem;
+  border-radius: 8px;
+  border: 1px solid #ececf3;
+  background: #f5f4fc;
+  font-family: inherit;
+  font-size: 1.04em;
+  transition: border-color 0.18s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #7a52f4;
+}
+
+.error-message {
+  display: none;
+  color: #c0255e;
+  font-size: .9em;
+  margin-top: .14em;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: .7em 0;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg,#7a52f4,#657eed 95%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.11em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(122,82,244,.13);
+  transition: background .16s, color .16s, box-shadow .16s;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg,#657eed,#7a52f4 95%);
+  box-shadow: 0 4px 22px rgba(122,82,244,.15);
+}
+
+.account-link {
+  text-align: center;
+  margin-top: 1.4em;
+  font-size: 1.04em;
+}
+
+.account-link a {
+  color: #7a52f4;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .18s;
+}
+
+.account-link a:hover {
+  color: #c0255e;
+}
+
+@media (max-width: 500px) {
+  .login-container {
+    padding: 1.4rem 0.5rem;
+    width: 98vw;
+  }
+}

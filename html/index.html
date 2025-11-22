@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DMS - Dashboard</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="faculty-bg">
+  <!-- Landing Page (Show only when not logged in) -->
+  <!-- Uncomment if you want the home screen -->
+  <!--
+  <div class="home-container card-shadow">
+    <h1>Welcome to Document Management System</h1>
+    <p class="description">
+      Securely register, sign in, and manage your academic and office documents with ease.
+    </p>
+    <div class="buttons">
+      <a href="login.html">Login</a>
+      <a href="registration.html" class="secondary">Register</a>
+    </div>
+  </div>
+  -->
+
+  <!-- Faculty Dashboard (Comment out if showing admin dashboard) -->
+  <div class="faculty-dashboard card-shadow">
+    <header>
+      <h1>🎓 Faculty Dashboard</h1>
+      <nav>
+        <a href="#upload">Upload Document</a>
+        <a href="#manage">Manage Files</a>
+        <a href="#profile">Profile</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </header>
+    <main>
+      <section class="user-info">
+        <h2>Welcome, Faculty!</h2>
+        <p><strong>Username:</strong> username</p>
+        <p><strong>Role:</strong> Faculty</p>
+      </section>
+      <section class="upload-section" id="upload">
+        <h3>Upload Document</h3>
+        <form>
+          <input type="file" required />
+          <button type="submit">Upload</button>
+        </form>
+      </section>
+      <section class="files-section" id="manage">
+        <h3>My Documents</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Document Name</th>
+              <th>Uploaded At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Syllabus.pdf</td>
+              <td>2025-11-14</td>
+              <td>
+                <button>Download</button>
+                <button>Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Assignment.docx</td>
+              <td>2025-11-13</td>
+              <td>
+                <button>Download</button>
+                <button>Delete</button>
+              </td>
+            </tr>
+            <!-- More documents here -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Admin Dashboard (Uncomment and set body class="admin-bg" for admin view) -->
+  <!--
+  <div class="admin-dashboard card-shadow">
+    <header>
+      <h1>🛡️ Admin Dashboard</h1>
+      <nav>
+        <a href="#upload">Upload Document</a>
+        <a href="#manage">All Documents</a>
+        <a href="#users">Manage Users</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </header>
+    <main>
+      <section class="user-info">
+        <h2>Welcome, Admin!</h2>
+        <p><strong>Username:</strong> admin</p>
+        <p><strong>Role:</strong> Admin</p>
+      </section>
+      <section class="upload-section" id="upload">
+        <h3>Upload Document</h3>
+        <form>
+          <input type="file" required />
+          <button type="submit">Upload</button>
+        </form>
+      </section>
+      <section class="files-section" id="manage">
+        <h3>All Documents</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Document Name</th>
+              <th>Uploaded At</th>
+              <th>Owner</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Policy.pdf</td>
+              <td>2025-11-13</td>
+              <td>faculty1</td>
+              <td>
+                <button>Download</button>
+                <button>Delete</button>
+              </td>
+            </tr>
+            <!-- More documents here -->
+          </tbody>
+        </table>
+      </section>
+      <section class="users-section" id="users">
+        <h3>Manage Users</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pabitra Kumar</td>
+              <td>pabitra123</td>
+              <td>Faculty</td>
+              <td>
+                <button>Edit</button>
+                <button>Delete</button>
+              </td>
+            </tr>
+            <!-- More users here -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+  -->
+</body>
+</html>

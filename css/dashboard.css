@@ -1,0 +1,654 @@
+/* ---------- Global Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f3f4f7;
+  color: #111827;
+  display: flex;
+}
+
+/* ---------- Layout ---------- */
+
+.main-area {
+  margin-left: 260px; /* width of sidebar */
+  padding: 24px 32px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 260px;
+  background: radial-gradient(circle at top left, #4f46e5, #1f2937);
+  color: #e5e7eb;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 10px 0 30px rgba(15, 23, 42, 0.4);
+  z-index: 20;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  font-size: 1.6rem;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.94rem;
+  color: #e5e7eb;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+}
+
+.sidebar nav a span {
+  font-size: 1.1rem;
+}
+
+.sidebar nav a:hover {
+  background: rgba(15, 23, 42, 0.35);
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.sidebar nav a.active {
+  background: #f9fafb;
+  color: #111827;
+  opacity: 1;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
+}
+
+/* ---------- Header ---------- */
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.dashboard-header h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  background: #ffffff;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+#logoutBtn {
+  border: none;
+  outline: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #f9fafb;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+#logoutBtn:hover {
+  background: #dc2626;
+  box-shadow: 0 8px 18px rgba(239, 68, 68, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ---------- Cards & Upload ---------- */
+
+.upload-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.05);
+  margin-bottom: 18px;
+}
+
+.upload-card.small {
+  padding: 16px 18px;
+}
+
+.upload-form.small {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upload-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Inputs & Buttons ---------- */
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  font-family: inherit;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  outline: none;
+  background: #f9fafb;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 1px #4f46e5, 0 0 0 4px rgba(79, 70, 229, 0.1);
+  background: #ffffff;
+}
+
+.input-small {
+  min-width: 170px;
+}
+
+/* Upload button */
+.upload-btn {
+  border: none;
+  outline: none;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #f9fafb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  white-space: nowrap;
+}
+
+.upload-btn:hover {
+  filter: brightness(1.03);
+  box-shadow: 0 16px 35px rgba(79, 70, 229, 0.55);
+  transform: translateY(-1px);
+}
+
+/* File Input Custom */
+
+.file-label {
+  cursor: pointer;
+  position: relative;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-input-wrapper-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px dashed #9ca3af;
+  background: #f9fafb;
+  gap: 3px;
+  min-width: 190px;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-input-wrapper-compact:hover {
+  border-color: #4f46e5;
+  background: #eef2ff;
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.12);
+}
+
+.file-icon {
+  font-size: 1.3rem;
+}
+
+.file-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.file-hint {
+  font-size: 0.76rem;
+  color: #6b7280;
+}
+
+.file-preview-area {
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+/* ---------- Filter Bar & Search ---------- */
+
+/* ---------- Combined Search + Filters layout ---------- */
+.search-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+/* move search-row styling slightly */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 420px; /* grow on wide screens */
+  max-width: 640px;
+}
+
+/* Filter group on the right */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  position: relative; /* anchor for dropdown */
+}
+
+/* doc type wrapper ensures menu is positioned relative to this area */
+.doctype-wrapper {
+  position: relative;
+}
+
+.doctype-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* style to look like other filter buttons */
+.doctype-wrapper .doctype-btn {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.82rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: background .15s ease, box-shadow .15s ease;
+}
+
+.doctype-wrapper .doctype-btn:hover {
+  background: #f3f4ff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.12);
+}
+
+/* position the doc type dropdown anchored to the wrapper, and aligned right */
+#docTypeMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: none; /* toggled via JS */
+  margin: 0;
+  padding: 6px 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+  border: 1px solid #e5e7eb;
+  min-width: 210px;
+  z-index: 60;
+}
+
+/* smaller padding for the filter buttons on mobile */
+@media (max-width: 880px) {
+  .search-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-row {
+    max-width: 100%;
+    order: 1;
+  }
+  .filter-group {
+    order: 2;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+}
+
+/* Dropdown menu for doc types */
+#docTypeMenu {
+  position: absolute;
+  margin-top: 42px;
+  padding: 6px 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+  border: 1px solid #e5e7eb;
+  min-width: 190px;
+  z-index: 10;
+}
+
+.doc-menu-item {
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  cursor: pointer;
+  color: #111827;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.doc-menu-item:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px; /* original 18 */
+}
+
+.search-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 7px 16px;
+  background: #111827;
+  color: #f9fafb;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.search-btn:hover {
+  background: #030712;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.45);
+  transform: translateY(-1px);
+}
+
+/* ---------- Tables ---------- */
+
+.documents-table-area {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  padding: 16px 18px 10px;
+  overflow-x: auto;
+}
+
+.documents-table-area h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.documents-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  min-width: 720px;
+}
+
+.documents-table thead {
+  background: #f3f4ff;
+}
+
+.documents-table thead th {
+  text-align: left;
+  padding: 10px 10px;
+  font-weight: 600;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.documents-table tbody tr {
+  transition: background 0.18s ease, transform 0.1s ease, box-shadow 0.18s ease;
+}
+
+.documents-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.documents-table tbody td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf1f5;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.documents-table tbody tr:hover {
+  background: #eef2ff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.1);
+}
+
+/* Generic table action buttons - optional if you add classes in JS */
+.documents-table .btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+/* ---------- Analytics Section ---------- */
+
+#analyticsSection h2,
+#filesSection h2,
+#settingsSection h2,
+#applicationSection h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+/* ---------- Application Section Forms ---------- */
+
+#applicationSection .form-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#applicationSection label {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+#applicationSection button[type="submit"] {
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #f9fafb;
+  box-shadow: 0 14px 32px rgba(22, 163, 74, 0.45);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+#applicationSection button[type="submit"]:hover {
+  box-shadow: 0 16px 40px rgba(22, 163, 74, 0.55);
+  transform: translateY(-1px);
+}
+
+/* ---------- Modal ---------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 40;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  max-width: 820px;
+  width: 92%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.45);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.18s ease, transform 0.1s ease;
+}
+
+.close-btn:hover {
+  color: #111827;
+  transform: scale(1.05);
+}
+
+/* ---------- Settings Placeholder ---------- */
+
+#settingsSection p {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+  .main-area {
+    margin-left: 0;
+    padding: 18px 16px 24px;
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 220px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  /* If you later add a "sidebar-open" class via JS */
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .upload-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-small,
+  .upload-btn {
+    width: 100%;
+  }
+
+  .filter-bar {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .documents-table {
+    min-width: 600px;
+  }
+}

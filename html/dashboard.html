@@ -1,0 +1,283 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DMS Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    // Pass session username from PHP to JS
+    window.CURRENT_USER = "<?php echo isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'demo_user'; ?>";
+  </script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">📁</div>
+    <nav>
+      <a data-section="dashboardSection" class="active"><span>🏠</span>Dashboard</a>
+      <a data-section="analyticsSection"><span>📊</span>Analysis</a>
+      <a data-section="filesSection"><span>📄</span>My Documents</a>
+      <a data-section="applicationSection"><span>📄</span>Application</a>
+      <a data-section="settingsSection"><span>⚙️</span>Settings</a>
+    </nav>
+  </aside>
+
+  <div class="main-area">
+    <header class="dashboard-header">
+      <div>
+        <!-- Real username -->
+        <h2>Hello <?php echo htmlspecialchars($_SESSION['username'] ?? "User"); ?></h2>
+      </div>
+      <div class="user-profile">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="user-avatar" />
+        <span class="user-name">
+          <?php echo htmlspecialchars($_SESSION['username'] ?? "User"); ?>
+        </span>
+        <button id="logoutBtn">Logout</button>
+        <script>
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+          fetch('../php/logout.php')
+            .then(() => {
+              localStorage.clear();
+              window.location.href = 'login.html';
+            });
+        });
+        </script>
+      </div>
+    </header>
+
+    <!-- Dashboard Section (Default, visible on page load) -->
+    <section id="dashboardSection">
+      <div class="upload-card small">
+        <form id="uploadForm" class="upload-form small">
+          <h3 class="upload-title"><span style="font-size:1.3em;vertical-align:middle;">📤</span> Upload Document</h3>
+          <div class="upload-row">
+            <label for="fileInput" class="file-label file-label-compact">
+              <input type="file" id="fileInput" class="file-input" required />
+              <div class="file-input-wrapper-compact">
+                <span class="file-icon">📁</span>
+                <span class="file-text">Choose file</span>
+                <span class="file-hint">(PDF, Word, etc.)</span>
+              </div>
+              <div id="filePreviewArea" class="file-preview-area" style="margin-top: 10px;"></div>
+            </label>
+            <input type="text" id="docNameInput" placeholder="Document Name" required style="max-width: 180px;" />
+            <select id="docUploadTypeInput" required style="max-width: 150px;">
+              <option value="">Type</option>
+              <option value="Research Paper">Research Paper</option>
+              <option value="Assignment">Assignment</option>
+              <option value="Leave Application">Leave Application</option>
+              <option value="Exam Paper">Exam Paper</option>
+              <option value="Project">Project</option>
+              <option value="Notes">Notes</option>
+              <option value="Others">Others</option>
+            </select>
+            <button type="submit" class="upload-btn">Upload</button>
+          </div>
+        </form>
+      </div>
+      <!-- Combined Search + Filter Row -->
+<div class="search-filter-row">
+  <div class="search-row">
+    <input type="text" placeholder="Search documents" class="input-small" />
+    <button class="search-btn">Search</button>
+  </div>
+
+  <div class="filter-group">
+    <button class="filter active" data-filter="all">All documents</button>
+
+    <div class="filter doctype-wrapper">
+      <button id="docTypeBtn" type="button" class="doctype-btn">Document Type ▼</button>
+      <div id="docTypeMenu" style="display:none">
+        <div class="doc-menu-item" data-type="All">All</div>
+        <div class="doc-menu-item" data-type="Research Paper">Research Paper</div>
+        <div class="doc-menu-item" data-type="Assignment">Assignment</div>
+        <div class="doc-menu-item" data-type="Leave Application">Leave Application</div>
+        <div class="doc-menu-item" data-type="Exam Paper">Exam Paper</div>
+        <div class="doc-menu-item" data-type="Project">Project</div>
+        <div class="doc-menu-item" data-type="Notes">Notes</div>
+        <div class="doc-menu-item" data-type="Others">Others</div>
+      </div>
+    </div>
+
+    <button class="filter" data-filter="Others">Others</button>
+    <button class="filter" data-filter="Pre-categorized">Pre-categorized <span class="count">7</span></button>
+
+    <select id="periodSelect" class="input-small period-select">
+      <option value="all">Period: All</option>
+      <option value="7days">Last 7 days</option>
+      <option value="month">This Month</option>
+    </select>
+  </div>
+</div>
+
+      <!-- Documents Table -->
+      <section class="documents-table-area">
+        <h2>All Documents</h2>
+        <table class="documents-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Document Name</th>
+              <th>Type</th>
+              <th>Size</th>
+              <th>User</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="docs-tbody">
+            <!-- Filled dynamically -->
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <!-- Analytics Section -->
+ <section id="analyticsSection" style="display:none;">
+  <h2>Analytics</h2>
+  <div style="max-width:520px;margin:36px auto;">
+    <canvas id="docTypeChart" width="480" height="350"></canvas>
+  </div>
+  <div style="font-size:1.13em;text-align:center;margin-top:17px;">Number of documents uploaded by type</div>
+</section>
+
+
+
+    <!-- Files Section -->
+    <section id="filesSection" style="display:none;">
+      <h2>My Files</h2>
+      <div class="documents-table-area">
+        <table class="documents-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Document Name</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>User</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="myfiles-tbody">
+            <!-- Rows filled by JS -->
+          </tbody>
+        </table>
+      </div>
+      <!-- Modal for file preview -->
+      <div id="filePreviewModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span id="closeModalBtn" class="close-btn">&times;</span>
+          <div id="previewBody">Loading...</div>
+        </div>
+      </div>
+    </section>
+<!-- Application Upload Section (initially hidden) -->
+<section id="applicationSection" style="display:none;">
+  <!-- Faculty/User upload -->
+  <div id="facultyAppUpload" style="display:none;">
+    <h2>Submit Application</h2>
+    <form id="applicationForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="applicationType">Application Type:</label>
+        <select id="applicationType" required>
+          <option value="">Select Application Type</option>
+          <option value="Leave">Leave Application</option>
+          <option value="Job">Job Application</option>
+          <option value="Internship">Internship Application</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="applicationTitle">Title/Subject:</label>
+        <input id="applicationTitle" type="text" required placeholder="Application title" />
+      </div>
+      <div class="form-group">
+        <label for="applicationDetails">Details:</label>
+        <textarea id="applicationDetails" required placeholder="Please provide details..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" required />
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" required />
+      </div>
+      <div class="form-group">
+        <label for="classCount">Number of classes:</label>
+        <input type="number" id="classCount" min="1" required />
+      </div>
+      <div id="classScheduleContainer"></div>
+      <div class="form-group">
+        <label for="applicationFile">Upload Application File (PDF, DOC, etc):</label>
+        <input type="file" id="applicationFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required />
+      </div>
+      <button type="submit">Submit Application</button>
+    </form>
+    <h3 style="margin:2.5em 0 1em 0;">Your Submitted Applications</h3>
+    <div style="overflow-x:auto;">
+      <table class="documents-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>File</th>
+          </tr>
+        </thead>
+        <tbody id="user-applications-list"></tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Admin view -->
+  <div id="adminAppsList" style="display:none;">
+    <h2>Pending Applications</h2>
+    <table class="documents-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>User</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="applications-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+
+
+    <!-- Settings Section -->
+    <section id="settingsSection" style="display:none;">
+      <h2>Settings</h2>
+      <p>Configure your DMS preferences and user profile here.</p>
+    </section>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+
+
+  <script>
+    fetch('../php/api.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.status !== "success") {
+          window.location.href = "login.html";
+        }
+      })
+      .catch(() => window.location.href = "login.html");
+  </script>
+</body>
+</html>
