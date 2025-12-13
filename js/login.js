@@ -1,14 +1,15 @@
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
-  loginForm.addEventListener('submit', function(e) {
+  loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const data = {
       username: loginForm.username.value.trim(),
       password: loginForm.password.value
     };
+
     fetch('../php/login.php', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
       .then(res => res.json())
@@ -17,12 +18,19 @@ if (loginForm) {
           // Save user session info for frontend rendering
           localStorage.setItem('userRole', data.user.role);
           localStorage.setItem('fullname', data.user.fullname);
+
+          // 🔹 Force first tab after login to Dashboard
+          localStorage.setItem('activeSection', 'dashboardSection');
+
+          // go to dashboard
           window.location.href = "../html/dashboard.html";
         } else {
           alert('Error: ' + data.message);
         }
-      }).catch(() => {
+      })
+      .catch(() => {
         alert('Server error.');
       });
   });
 }
+  

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Submitted - FoCT DMS</title>
+  <link rel="stylesheet" href="../css/application-confirmation.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="confirmation-container">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h1>Application Submitted Successfully!</h1>
+      <p class="subtitle">Your leave application has been submitted. Download your soft copy below.</p>
+
+      <div class="application-preview">
+        <div class="preview-section">
+          <h3>Application Details</h3>
+          <div class="detail-row">
+            <span class="label">Applicant:</span>
+            <span class="value" id="previewApplicant">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Application Type:</span>
+            <span class="value" id="previewType">Leave Application</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Title/Subject:</span>
+            <span class="value" id="previewTitle">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Details:</span>
+            <span class="value multiline" id="previewDetails">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Start Date:</span>
+            <span class="value" id="previewStartDate">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">End Date:</span>
+            <span class="value" id="previewEndDate">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Number of Classes:</span>
+            <span class="value" id="previewClassCount">—</span>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <h3>Class Schedule</h3>
+          <div id="previewSchedule" class="schedule-table">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="download-section">
+        <p class="download-label">Download your application as:</p>
+        <div class="button-group">
+          <button id="downloadPdfBtn" class="btn btn-primary">📄 Download as PDF</button>
+          <button id="downloadWordBtn" class="btn btn-secondary">📝 Download as Word</button>
+        </div>
+      </div>
+
+      <button id="backToDashboardBtn" class="btn btn-outline">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <script src="../js/application-confirmation.js"></script>
+  <!-- PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- Word document generation -->
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
+
+</body>
+</html>

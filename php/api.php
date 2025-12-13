@@ -1,51 +1,76 @@
 <?php
-session_start();
 header('Content-Type: application/json');
 include 'db.php';
+session_start();
 
-// ------ 1. File Preview (for document modal) -------
-if (isset($_GET['preview_id'])) {
-    $fileId = intval($_GET['preview_id']);
-    $stmt = $conn->prepare("SELECT filepath, filename FROM documents WHERE id=? LIMIT 1");
-    $stmt->bind_param("i", $fileId);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    if ($row = $res->fetch_assoc()) {
-        $filePath = '../upload/' . $row['filepath'];
-        $fileType = @mime_content_type($filePath);
-        $fileUrl = $filePath; // use relative path for <img src> or <iframe src>
-        if (!file_exists($filePath)) {
-            echo json_encode(['status' => 'error', 'message' => 'File not found']);
-            exit;
-        }
-        echo json_encode([
-            'status' => 'success',
-            'filetype' => $fileType,
-            'url' => $fileUrl,
-            'filename' => $row['filename']
-        ]);
-        exit;
+// ✅ Step 1: Check session
+if (!isset($_SESSION['username'])) {
+    echo json_encode([
+        'status'  => 'error',
+        'message' => 'Not authenticated'
+    ]);
+    exit;
+}
+
+$username = $_SESSION['username'];
+
+// ✅ Step 2: Fetch user details safely
+$stmt = $conn->prepare("
+    SELECT 
+        id,
+        fullname,
+        email,
+        username,
+        avatar_url,
+        role
+    FROM users
+    WHERE username = ?
+    LIMIT 1
+");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+
+// ✅ Step 3: If not found, still return username from session
+if (!$user) {
+    echo json_encode([
+        'status'   => 'success',
+        'username' => $username,
+        'role'     => $_SESSION['role'] ?? 'faculty',
+        'full_name'=> $username,
+        'email'    => '',
+        'avatar_url'=> null
+    ]);
+    exit;
+}
+
+// ✅ Step 4: Ensure full_name and avatar_url have proper defaults
+$fullName = $user['fullname'] ?: $user['username'];
+$email = $user['email'] ?: '';
+$role = $user['role'] ?: ($_SESSION['role'] ?? 'faculty');
+
+// handle avatar URL (make relative to your dashboard.html)
+$avatarUrl = '';
+if (!empty($user['avatar_url'])) {
+    // if it already starts with http or https, leave it
+    if (preg_match('/^https?:\/\//i', $user['avatar_url'])) {
+        $avatarUrl = $user['avatar_url'];
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'File record not found.']);
-        exit;
+        // make sure the path works from your HTML file
+        $avatarUrl = '../' . ltrim($user['avatar_url'], '/');
     }
 }
 
-// ------ 2. Return user session info (role, name, etc) -------
-if (isset($_SESSION['username'])) {
-    // Safely get all expected fields, ensure role is present
-    $response = [
-        'status' => 'success',
-        'username' => $_SESSION['username'],
-        'fullname' => $_SESSION['fullname'] ?? '',
-        'role' => $_SESSION['role'] ?? ''
-    ];
-    // Debug safety: You can log this for debugging if needed
-    // file_put_contents('/tmp/apidebug.txt', print_r($response, true));
-    echo json_encode($response);
-    exit;
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Not logged in']);
-    exit;
-}
-?>
+// ✅ Step 5: Return JSON
+echo json_encode([
+    'status'     => 'success',
+    'username'   => $user['username'],
+    'role'       => $role,
+    'full_name'  => $fullName,
+    'email'      => $email,
+    'avatar_url' => $avatarUrl
+]);
+
+$conn->close();

@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.confirmation-container {
+  width: 100%;
+  max-width: 700px;
+}
+
+.success-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.6s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+h1 {
+  margin: 20px 0 10px;
+  font-size: 1.8rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0 0 30px;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.application-preview {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.preview-section {
+  margin-bottom: 24px;
+}
+
+.preview-section:last-child {
+  margin-bottom: 0;
+}
+
+.preview-section h3 {
+  margin: 0 0 16px;
+  font-size: 1.05rem;
+  color: #111827;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row .label {
+  font-weight: 500;
+  color: #374151;
+  min-width: 140px;
+  text-align: left;
+}
+
+.detail-row .value {
+  color: #6b7280;
+  text-align: right;
+  flex: 1;
+  word-break: break-word;
+}
+
+.detail-row .value.multiline {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.schedule-table {
+  display: grid;
+  gap: 12px;
+}
+
+.schedule-item {
+  background: white;
+  border-left: 4px solid #667eea;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.schedule-item-title {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.schedule-item-detail {
+  color: #6b7280;
+  margin: 4px 0;
+}
+
+.download-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: #fef3c7;
+  border-radius: 12px;
+  border: 1px solid #fbbf24;
+}
+
+.download-label {
+  margin: 0 0 16px;
+  color: #78350f;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(102, 126, 234, 0.5);
+}
+
+.btn-secondary {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.5);
+}
+
+.btn-outline {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-outline:hover {
+  background: #f9fafb;
+}
+
+@media (max-width: 600px) {
+  .success-card {
+    padding: 24px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    padding: 12px 0;
+  }
+
+  .detail-row .label {
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .detail-row .value {
+    text-align: left;
+  }
+}

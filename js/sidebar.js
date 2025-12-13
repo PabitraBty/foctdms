@@ -1,38 +1,54 @@
-// sidebar.js
-
+// sidebar.js — unified section handling
 document.addEventListener('DOMContentLoaded', () => {
-  const navLinks = document.querySelectorAll('.sidebar nav a');
+  const navLinks = document.querySelectorAll('.sidebar nav a[data-section]');
+  const sections = {
+    dashboardSection: document.getElementById('dashboardSection'),
+    analyticsSection: document.getElementById('analyticsSection'),
+    filesSection: document.getElementById('filesSection'),
+    applicationSection: document.getElementById('applicationSection'),
+    userManagementSection: document.getElementById('userManagementSection'),
+    settingsSection: document.getElementById('settingsSection'),
+  };
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('data-section');
-      if (targetId) {
-        e.preventDefault(); // Only run for SPA sections!
-        navLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-        document.querySelectorAll('.main-area > section').forEach(sec => {
-          sec.style.display = 'none';
-        });
-        document.getElementById(targetId).style.display = '';
-        return; // Add this to STOP execution here for SPA links
-      }
-      // For links WITHOUT data-section (like upload.html), do nothing: browser will follow href as normal!
+  function showSection(id) {
+    let found = false;
+
+    Object.keys(sections).forEach(key => {
+      const sec = sections[key];
+      if (!sec) return;
+      const visible = (key === id);
+      sec.style.display = visible ? 'block' : 'none';
+      if (visible) found = true;
     });
-  });
 
-  // On page load, show only dashboard section
-  if (document.getElementById("dashboardSection")) {
-    document.getElementById("dashboardSection").style.display = '';
+    // fallback if invalid section
+    if (!found && sections.dashboardSection) {
+      id = 'dashboardSection';
+      sections.dashboardSection.style.display = 'block';
+    }
+
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.section === id);
+    });
+
+    localStorage.setItem('activeSection', id);
+
+    // 🔄 Trigger section-specific initializations safely
+    document.dispatchEvent(new CustomEvent('sectionChanged', { detail: { id } }));
   }
 
-  // Inside your existing event listener for sidebar nav
-// for 'click' switch
-if (targetId) {
-  // hide all sections
-  document.querySelectorAll('.main-area > section').forEach(sec => {
-    sec.style.display = 'none';
+  // On first load, get from localStorage or fallback
+  let saved = localStorage.getItem('activeSection');
+  if (!saved || !sections[saved]) saved = 'dashboardSection';
+  showSection(saved);
+
+  // Handle sidebar link clicks
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      const targetId = link.dataset.section;
+      if (!targetId) return;
+      e.preventDefault();
+      showSection(targetId);
+    });
   });
-  // show selected
-  document.getElementById(targetId).style.display = '';
-}
 });
