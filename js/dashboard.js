@@ -145,17 +145,14 @@ const confirmModal = document.getElementById("confirm-modal");
 const confirmMsgEl = document.getElementById("confirm-message");
 const confirmOkBtn = document.getElementById("confirm-ok");
 const confirmCancelBtn = document.getElementById("confirm-cancel");
-const confirmTitleEl = document.getElementById("confirm-title");
+const confirmTitleEl = confirmModal
+  ? confirmModal.querySelector(".confirm-title")
+  : null;
 const confirmBackdrop = confirmModal
   ? confirmModal.querySelector(".confirm-backdrop")
   : null;
 
-function showConfirm(
-  message = "Are you sure?",
-  okText = "OK",
-  titleText = "Are you sure?",
-  variant = "danger" // "danger" or "primary"
-) {
+function showConfirm(message = "Are you sure?") {
   return new Promise((resolve) => {
     if (!confirmModal) {
       const result = window.confirm(message);
@@ -163,16 +160,16 @@ function showConfirm(
       return;
     }
 
-    if (confirmTitleEl) confirmTitleEl.textContent = titleText;
     if (confirmMsgEl) confirmMsgEl.textContent = message;
 
-    if (confirmOkBtn) {
-      confirmOkBtn.textContent = okText;
-      confirmOkBtn.classList.remove("danger", "primary");
-      if (variant === "primary") {
-        confirmOkBtn.classList.add("primary");
+    // Set a sensible title
+    if (confirmTitleEl) {
+      if (message.toLowerCase().includes("logout")) {
+        confirmTitleEl.textContent = "Confirm Logout";
+      } else if (message.toLowerCase().includes("delete")) {
+        confirmTitleEl.textContent = "Confirm Delete";
       } else {
-        confirmOkBtn.classList.add("danger");
+        confirmTitleEl.textContent = "Confirm Action";
       }
     }
 
@@ -1141,75 +1138,125 @@ if (fileInputApp.files[0].size > MAX_SIZE_BYTES) {
       .catch(() => {});
   }
 
-  function loadAdminApplications() {
+    function loadAdminApplications() {
     fetch("../php/list_applications.php")
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success")
+        if (data.status === "success") {
           renderAdminApplications(
             Array.isArray(data.applications) ? data.applications : []
           );
-        else if (applicationsTbody)
-          applicationsTbody.innerHTML = `<tr><td colspan="5">${escapeHtml(
+        } else if (applicationsTbody) {
+          applicationsTbody.innerHTML = `<tr><td colspan="6">${escapeHtml(
             data.message || ""
           )}</td></tr>`;
+        }
       })
       .catch(() => {
         if (applicationsTbody)
           applicationsTbody.innerHTML =
-            '<tr><td colspan="5">Server error</td></tr>';
+            '<tr><td colspan="6">Server error</td></tr>';
       });
   }
 
-  function renderAdminApplications(apps) {
+    function renderAdminApplications(apps) {
     if (!applicationsTbody) return;
-    applicationsTbody.innerHTML =
-      !Array.isArray(apps) || apps.length === 0
-        ? '<tr><td colspan="5" style="text-align:center;">No pending applications</td></tr>'
-        : apps
-            .map(
-              (app) => `
-      <tr>
-        <td>${escapeHtml(app.title)}</td>
-        <td>${escapeHtml(app.application_type)}</td>
-        <td>${escapeHtml(app.uploaded_by || "")}</td>
-        <td><span class="${escapeHtml(
-          app.status
-        )}">${escapeHtml(
-                app.status
-                  ? app.status.charAt(0).toUpperCase() +
-                      app.status.slice(1)
-                  : ""
-              )}</span></td>
-        <td>
-          ${
-            app.file
-              ? `<a href="../upload_applications/${encodeURIComponent(
-                  app.file
-                )}" target="_blank" class="action-btn">View File</a>`
-              : ""
-          }
-          ${
-            app.status === "pending"
-              ? `<button class="action-btn accept" data-id="${escapeHtml(
-                  app.id
-                )}">Accept</button>
-                 <button class="action-btn reject" data-id="${escapeHtml(
-                   app.id
-                 )}">Reject</button>`
-              : ""
-          }
-        </td>
-      </tr>
-    `
-            )
-            .join("");
 
+    if (!Array.isArray(apps) || apps.length === 0) {
+      applicationsTbody.innerHTML =
+        '<tr><td colspan="6" style="text-align:center;">No pending applications</td></tr>';
+      return;
+    }
+
+    applicationsTbody.innerHTML = apps
+      .map((app) => {
+        const submitted =
+          app.submission_date ||
+          app.submitted_at ||
+          app.created_at ||
+          app.uploaded_at ||
+          "";
+
+        const statusLabel = app.status
+          ? app.status.charAt(0).toUpperCase() + app.status.slice(1)
+          : "";
+
+        return `
+        <tr>
+          <td>${escapeHtml(app.title)}</td>
+          <td>${escapeHtml(app.application_type)}</td>
+          <td>${escapeHtml(app.uploaded_by || "")}</td>
+          <td>${escapeHtml(submitted)}</td>
+          <td><span class="${escapeHtml(app.status)}">${escapeHtml(
+          statusLabel
+        )}</span></td>
+          <td>
+            ${
+              app.file
+                ? `<a href="../upload_applications/${encodeURIComponent(
+                    app.file
+                  )}" target="_blank" class="action-btn">View File</a>`
+                : ""
+            }
+            ${
+              app.status === "pending"
+                ? `<button class="action-btn accept" data-id="${escapeHtml(
+                    app.id
+                  )}">Accept</button>
+                  <button class="action-btn reject" data-id="${escapeHtml(
+                    app.id
+                  )}">Reject</button>`
+                : ""
+            }
+            <button class="action-btn reject delete-app" data-id="${escapeHtml(
+              app.id
+            )}">Delete</button>
+          </td>
+        </tr>
+      `;
+      })
+      .join("");
+
+    // Accept
     applicationsTbody.querySelectorAll(".accept").forEach((btn) => {
       btn.onclick = () => updateApplicationStatus(btn.dataset.id, "accepted");
     });
+
+    // Reject
     applicationsTbody.querySelectorAll(".reject").forEach((btn) => {
+      if (btn.classList.contains("delete-app")) return; // delete handled below
       btn.onclick = () => updateApplicationStatus(btn.dataset.id, "rejected");
+    });
+
+    // ✅ Delete application with proper dialog
+    applicationsTbody.querySelectorAll(".delete-app").forEach((btn) => {
+      btn.onclick = () => {
+        showConfirm("Delete this application?").then((yes) => {
+          if (!yes) return;
+
+          fetch("../php/delete_application.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: btn.dataset.id }),
+          })
+            .then((r) => r.json())
+            .then((data) => {
+              if (data.status === "success") {
+                showToast("Application deleted.", "success");
+                loadAdminApplications();
+              } else {
+                showToast(
+                  "Failed to delete application: " +
+                    (data.message || "Unknown error"),
+                  "error"
+                );
+              }
+            })
+            .catch(() =>
+              showToast("Server error while deleting application.", "error")
+            );
+        });
+      };
     });
   }
 

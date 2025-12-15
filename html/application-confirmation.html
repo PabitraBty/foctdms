@@ -9,48 +9,49 @@
 </head>
 <body>
   <div class="confirmation-container">
-    <div class="success-card">
+    <div class="success-card" id="confirmationCard">
       <div class="success-icon">✓</div>
       <h1>Application Submitted Successfully!</h1>
       <p class="subtitle">Your leave application has been submitted. Download your soft copy below.</p>
 
       <div class="application-preview">
         <div class="preview-section">
-          <h3>Application Details</h3>
-          <div class="detail-row">
-            <span class="label">Applicant:</span>
-            <span class="value" id="previewApplicant">—</span>
+            <h3>Application Details</h3>
+            <div class="detail-row">
+              <span class="label">Applicant:</span>
+              <span class="value" id="previewApplicant">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Application Type:</span>
+              <span class="value" id="previewType">Leave Application</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Title/Subject:</span>
+              <span class="value" id="previewTitle">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Details:</span>
+              <span class="value multiline" id="previewDetails">—</span>
+            </div>
+            <!-- ✅ give these rows IDs so we can hide them -->
+            <div class="detail-row" id="rowStartDate">
+              <span class="label">Start Date:</span>
+              <span class="value" id="previewStartDate">—</span>
+            </div>
+            <div class="detail-row" id="rowEndDate">
+              <span class="label">End Date:</span>
+              <span class="value" id="previewEndDate">—</span>
+            </div>
+            <div class="detail-row" id="rowClassCount">
+              <span class="label">Number of Classes:</span>
+              <span class="value" id="previewClassCount">—</span>
+            </div>
           </div>
-          <div class="detail-row">
-            <span class="label">Application Type:</span>
-            <span class="value" id="previewType">Leave Application</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Title/Subject:</span>
-            <span class="value" id="previewTitle">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Details:</span>
-            <span class="value multiline" id="previewDetails">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Start Date:</span>
-            <span class="value" id="previewStartDate">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">End Date:</span>
-            <span class="value" id="previewEndDate">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Number of Classes:</span>
-            <span class="value" id="previewClassCount">—</span>
-          </div>
-        </div>
-
-        <div class="preview-section">
-          <h3>Class Schedule</h3>
+          <!-- ✅ add an ID to the whole Class Schedule section -->
+          <div class="preview-section" id="classScheduleSection">
+            <h3>Class Schedule</h3>
           <div id="previewSchedule" class="schedule-table">
-            <!-- Filled by JS -->
+          <!-- Filled by JS -->
           </div>
         </div>
       </div>
@@ -59,7 +60,6 @@
         <p class="download-label">Download your application as:</p>
         <div class="button-group">
           <button id="downloadPdfBtn" class="btn btn-primary">📄 Download as PDF</button>
-          <button id="downloadWordBtn" class="btn btn-secondary">📝 Download as Word</button>
         </div>
       </div>
 
@@ -67,13 +67,9 @@
     </div>
   </div>
 
+  <!-- JS -->
   <script src="../js/application-confirmation.js"></script>
-  <!-- PDF generation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-<!-- Word document generation -->
-<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
