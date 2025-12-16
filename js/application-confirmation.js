@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Back to dashboard
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.location.href = "dashboard.html";
+      window.location.href = "dashboard.php";
     });
   }
 

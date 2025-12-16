@@ -1,36 +1,31 @@
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  loginForm.addEventListener('submit', function (e) {
+console.log("login.js loaded");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("loginForm");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const data = {
-      username: loginForm.username.value.trim(),
-      password: loginForm.password.value
+      username: form.username.value.trim(),
+      password: form.password.value
     };
 
-    fetch('../php/login.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("../php/login.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === 'success') {
-          // Save user session info for frontend rendering
-          localStorage.setItem('userRole', data.user.role);
-          localStorage.setItem('fullname', data.user.fullname);
+    });
 
-          // 🔹 Force first tab after login to Dashboard
-          localStorage.setItem('activeSection', 'dashboardSection');
+    const result = await res.json();
 
-          // go to dashboard
-          window.location.href = "../html/dashboard.html";
-        } else {
-          alert('Error: ' + data.message);
-        }
-      })
-      .catch(() => {
-        alert('Server error.');
-      });
+    if (result.status === "success") {
+      localStorage.setItem("fullname", result.user.fullname);
+      localStorage.setItem("role", result.user.role);
+
+      window.location.href = "../html/dashboard.php";
+    } else {
+      alert(result.message);
+    }
   });
-}
-  
+});

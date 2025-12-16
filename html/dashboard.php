@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+if (!isset($_SESSION["username"])) {
+    header("Location: login.html");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -554,6 +562,11 @@
 
 <!-- Word document generation -->
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
+<script>
+  localStorage.setItem('fullname', "<?= $_SESSION['fullname'] ?>");
+  localStorage.setItem('userRole', "<?= $_SESSION['role'] ?>");
+</script>
+
 <!-- Toast / notification container -->
 <div id="toast-container"></div>
 <!-- Confirm dialog -->
