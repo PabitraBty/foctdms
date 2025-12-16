@@ -109,8 +109,8 @@ if (!isset($_SESSION["username"])) {
                 <span class="file-text">Choose file</span>
                 <span class="file-hint">(PDF, Word, etc.)</span>
               </div>
-              <div id="filePreviewArea" class="file-preview-area" style="margin-top: 10px;"></div>
             </label>
+             <div id="filePreviewArea" class="file-preview-area" style="margin-top: 10px;"></div>
             <input type="text" id="docNameInput" placeholder="Document Name" required style="max-width: 180px;" />
             <select id="docUploadTypeInput" required style="max-width: 150px;">
               <option value="">Type</option>

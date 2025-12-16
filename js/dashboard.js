@@ -295,9 +295,10 @@ function showConfirm(message = "Are you sure?") {
         else if (/xls|csv|sheet/i.test(file.name)) icon = "📗";
         filePreviewArea.innerHTML = `
           <div class="file-preview-box">
-            <span class="file-preview-icon">${icon}</span>
+            <div class="file-preview-thumb">
+              <img src="${e.target.result}" alt="Preview" />
+            </div>
             <span class="file-preview-name">${escapeHtml(file.name)}</span>
-            <span class="file-preview-size">(${formatSize(file.size)})</span>
           </div>`;
       }
     });
